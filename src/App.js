@@ -1,18 +1,16 @@
 import "./App.css";
+import MainPage from "./pages/mainPage/MainPage";
+import Footer from "./components/footer";
+import Navbar from "./components/navbar/Navbar";
 
 const App = () => {
-    const titleText = "Dashboard project";
-
     return (
         <>
-            <div className="title">
-                <h1>{titleText}</h1>
-            </div>
-            <div className="content">
-                <p>Content text</p>
-            </div>
+            <Navbar />
+            <MainPage />
+            <Footer />
         </>
     );
-}
+};
 
 export default App;
