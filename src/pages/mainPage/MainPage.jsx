@@ -15,7 +15,7 @@ const MainPage = () => {
 
     return (
         <div className="container">
-            <SolidButton text="Solid green button" />
+            <SolidButton text="Solid green button" color="magenta" />
             <div className="title">
                 <h1>{titleText}</h1>
             </div>
@@ -27,7 +27,7 @@ const MainPage = () => {
                 <SolidButton text="Solid red button" color="red" />
             </div>
             <div>
-                <OutlineButton text="Go to new page" />
+                <OutlineButton text="Go to new page" color="red" />
             </div>
             <div>
                 <AnimatedButton />
