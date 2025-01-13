@@ -3,6 +3,7 @@ import MainPage from "./pages/mainPage/MainPage";
 import Footer from "./components/footer";
 import Navbar from "./components/navbar/Navbar";
 import "./App.css";
+import RegisterPage from "./pages/registerPage/RegisterPage";
 
 const App = () => {
     // state
@@ -24,10 +25,8 @@ const App = () => {
     return (
         <>
             <Navbar isDark={theme === "dark"} themeCallback={changeThemeHandler} />
-            <div>
-                <button onClick={changeThemeHandler} style={{margin: "10px 5px"}}>Change theme</button>
-            </div>
-            <MainPage />
+            {/* <MainPage /> */}
+            <RegisterPage />
             <Footer />
         </>
     );
