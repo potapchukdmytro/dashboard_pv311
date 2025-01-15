@@ -4,3 +4,7 @@
     align-items: center;
     height: 75px;
 }
+
+a {
+    text-decoration: none;
+}

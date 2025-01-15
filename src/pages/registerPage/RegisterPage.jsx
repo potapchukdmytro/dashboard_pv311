@@ -45,6 +45,9 @@ const RegisterPage = () => {
 
     return (
             <Box component="form" onSubmit={formik.handleSubmit} className="form-container">
+                <Box>
+                    <h1>Register page</h1>
+                </Box>
                 <Box className="form-control">
                     <TextField
                         id="firstName"

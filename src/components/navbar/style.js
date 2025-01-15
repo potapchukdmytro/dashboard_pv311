@@ -1,10 +1,8 @@
 export const navLinkLight = {
-    textDecoration: "none", 
     color: "black"
 };
 
 export const navLinkDark = {
-    textDecoration: "none", 
     color: "white"
 };
 

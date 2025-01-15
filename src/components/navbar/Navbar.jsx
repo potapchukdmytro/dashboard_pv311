@@ -3,6 +3,7 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import "./style.css";
 import { IconButton } from "@mui/material";
+import {Link} from "react-router-dom";
 
 const Navbar = ({ isDark = false, themeCallback }) => {
     const navLinkStyle = isDark ? style.navLinkDark : style.navLinkLight;
@@ -12,18 +13,18 @@ const Navbar = ({ isDark = false, themeCallback }) => {
             style={isDark ? style.navbarDark : style.navbarLight}
             className="navbar"
         >
-            <a style={navLinkStyle} href="#">
+            <Link style={navLinkStyle} to="/">
                 Main page
-            </a>
-            <a style={navLinkStyle} href="#">
+            </Link>
+            <Link style={navLinkStyle} to="/about">
                 About
-            </a>
-            <a style={navLinkStyle} href="#">
-                Page 3
-            </a>
-            <a style={navLinkStyle} href="#">
+            </Link>
+            <Link style={navLinkStyle} to="/register">
+                Register
+            </Link>
+            <Link style={navLinkStyle} to="/">
                 Page 4
-            </a>
+            </Link>
             <div onClick={themeCallback}>
                 { 
                     isDark ? 
