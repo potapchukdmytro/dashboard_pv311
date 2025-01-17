@@ -3,19 +3,27 @@ import { useFormik } from "formik";
 import * as Yup from 'yup';
 import "./style.css";
 import { FormError } from "../../components/errors/Errors";
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
 
+    const navigate = useNavigate();
+
     const formHandler = (values) => {
+        delete values.confirmPassword;
+
         const users = localStorage.getItem("users");
 
         if(!users) {
-            localStorage.setItem("users", JSON.stringify([values]))
+            localStorage.setItem("users", JSON.stringify([{...values, id: 1}]))
         } else {
             const array = JSON.parse(users);
+            values.id = array[array.length - 1].id + 1;
             array.push(values);
             localStorage.setItem("users", JSON.stringify(array));
         }
+
+        navigate("/");
     }
 
     // init values
@@ -32,7 +40,7 @@ const RegisterPage = () => {
         firstName: Yup.string().max(50, "Максимум 50 символів"),
         lastName: Yup.string().max(50, "Максимум 50 символів"),
         email: Yup.string().required("Пошта обов'язкова").email("Невірний формат пошти"),
-        password: Yup.string().required("Пароль обов'зковий").min(8, "Пароль повинен містити не менше 8 символів"),
+        password: Yup.string().required("Пароль обов'зковий").min(6, "Пароль повинен містити не менше 6 символів"),
         confirmPassword: Yup.string().required("Підтвердіть пароль").oneOf([Yup.ref('password')], 'Паролі не збігаються')
     });
 
