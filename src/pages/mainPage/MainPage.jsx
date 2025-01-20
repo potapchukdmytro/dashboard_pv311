@@ -2,7 +2,9 @@ import "./MainPage.css";
 
 const MainPage = () => {
     return (
-        <img style={{marginTop: "8px", width: "100%"}} src="https://img.freepik.com/premium-vector/main-web-page-design_87720-407.jpg"/>
+        <div style={{textAlign: "center"}}>
+            <img style={{marginTop: "8px"}} src="https://i.pinimg.com/474x/10/37/6c/10376ccf23c55087f02b777f3147eb8e.jpg"/>
+        </div>
     );
 };
 

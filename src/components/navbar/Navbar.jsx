@@ -4,9 +4,16 @@ import LightModeIcon from "@mui/icons-material/LightMode";
 import "./style.css";
 import { IconButton, Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../providers/AuthProvider";
 
 const Navbar = ({ isDark = false, themeCallback }) => {
     const navLinkStyle = isDark ? style.navLinkDark : style.navLinkLight;
+    const { auth, logout } = useContext(AuthContext); 
+
+    const logoutHandler = () => {
+        logout();
+    }
 
     return (
         <div
@@ -40,12 +47,34 @@ const Navbar = ({ isDark = false, themeCallback }) => {
                 )}
             </div>
             <div className="navauth">
-                <Link to="login">
-                    <Button style={{margin: "0px 5px 0px 0px"}} variant="contained">Login</Button>
-                </Link>
-                <Link to="register">
-                    <Button style={{margin: "0px 10px 0px 5px"}} variant="contained">Register</Button>
-                </Link>
+                {!auth ? (
+                    <>
+                        <Link to="login">
+                            <Button
+                                style={{ margin: "0px 5px 0px 0px" }}
+                                variant="contained"
+                            >
+                                Login
+                            </Button>
+                        </Link>
+                        <Link to="register">
+                            <Button
+                                style={{ margin: "0px 10px 0px 5px" }}
+                                variant="contained"
+                            >
+                                Register
+                            </Button>
+                        </Link>
+                    </>
+                ) : (
+                    <Button
+                        onClick={logoutHandler}
+                        style={{ margin: "0px 10px 0px 5px" }}
+                        variant="contained"
+                    >
+                        Logout
+                    </Button>
+                )}
             </div>
         </div>
     );
