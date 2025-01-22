@@ -4,34 +4,39 @@
     "email": "admin@gmail.com",
     "password": "qwerty",
     "firstName": "Admin",
-    "lastName": "Admin"
+    "lastName": "Admin",
+    "image": ""
   },
   {
     "id": 2,
     "email": "user@gmail.com",
     "password": "qwerty",
     "firstName": "User",
-    "lastName": "User"
+    "lastName": "User",
+    "image": ""
   },
   {
     "id": 3,
     "email": "batman@gmail.com",
     "password": "qwerty",
     "firstName": "Batman",
-    "lastName": "Black"
+    "lastName": "Black",
+    "image": ""
   },
   {
     "id": 4,
     "email": "flash@gmail.com",
     "password": "qwerty",
     "firstName": "Flash",
-    "lastName": "Speed"
+    "lastName": "Speed",
+    "image": ""
   },
   {
     "id": 5,
     "email": "java@gmail.com",
     "password": "qwerty",
     "firstName": "Steve",
-    "lastName": "Carrot"
+    "lastName": "Carrot",
+    "image": ""
   }
 ]

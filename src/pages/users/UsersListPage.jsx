@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+    Avatar,
     Box,
     Button,
     IconButton,
@@ -14,6 +15,7 @@ import {
 import usersJson from "./users";
 import { Link } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
+import {defaultAvatarUrl} from "../../settings/urls";
 
 const UsersListPage = () => {
     const [users, setUsers] = useState([]);
@@ -37,6 +39,7 @@ const UsersListPage = () => {
                     <TableHead>
                         <TableRow>
                             <TableCell align="center">Id</TableCell>
+                            <TableCell align="center">Avatar</TableCell>
                             <TableCell align="center">First name</TableCell>
                             <TableCell align="center">Last name</TableCell>
                             <TableCell align="center">Email</TableCell>
@@ -60,6 +63,9 @@ const UsersListPage = () => {
                                     scope="row"
                                 >
                                     {user.id}
+                                </TableCell>
+                                <TableCell align="center">
+                                    <Avatar sx={{margin: "auto"}} alt="Remy Sharp" src={user.image ? user.image : defaultAvatarUrl} />
                                 </TableCell>
                                 <TableCell align="center">
                                     {user.firstName}
