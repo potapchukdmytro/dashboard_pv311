@@ -21,6 +21,7 @@ const RegisterPage = () => {
         } else {
             const array = JSON.parse(users);
             values.id = array[array.length - 1].id + 1;
+            values.role = "user";
             array.push(values);
             localStorage.setItem("users", JSON.stringify(array));
         }

@@ -3,7 +3,7 @@ import { TextField, Box, Button } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import "./style.css";
-import { FormError } from "../../../components/errors/Errors";
+import { FormError } from "../../../../components/errors/Errors";
 import { useEffect } from "react";
 
 const EditUserPage = ({ isEdit = false }) => {
@@ -13,7 +13,7 @@ const EditUserPage = ({ isEdit = false }) => {
     const formEditHandler = (values) => {
         const localData = localStorage.getItem("users");
         if (!localData) {
-            navigate("/users");
+            navigate("/admin/users");
         }
 
         const users = JSON.parse(localData);
@@ -21,7 +21,7 @@ const EditUserPage = ({ isEdit = false }) => {
         users[userIndex] = { ...values };
         localStorage.setItem("users", JSON.stringify(users));
 
-        navigate("/users");
+        navigate("/admin/users");
     };
 
     const formCreateHandler = (values) => {
@@ -39,7 +39,7 @@ const EditUserPage = ({ isEdit = false }) => {
             localStorage.setItem("users", JSON.stringify(array));
         }
 
-        navigate("/users");
+        navigate("/admin/users");
     };
 
     // init values
@@ -74,7 +74,7 @@ const EditUserPage = ({ isEdit = false }) => {
         if (isEdit) {
             const localData = localStorage.getItem("users");
             if (!localData) {
-                navigate("/users");
+                navigate("/admin/users");
             }
 
             const id = params.id;
@@ -83,7 +83,7 @@ const EditUserPage = ({ isEdit = false }) => {
             const user = users.find((u) => u.id == id);
 
             if (!user) {
-                navigate("/users");
+                navigate("/admin/users");
             }
 
             formik.setValues(user);

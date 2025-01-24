@@ -7,7 +7,7 @@ const NewsPage = () => {
     const [news, setNews] = useState({totalResults: 0, articles: []});
     const [pagination, setPagination] = useState({page: 1, total: 1})
 
-    const apiKey = "";
+    const apiKey = "eef038525fa7401d8dfe7cf1a9006b10";
     const lang = "uk";
     const searchParam = "ukraine";
     const pageSize = 20;
@@ -36,6 +36,7 @@ const NewsPage = () => {
 
     useEffect(() => {
         newsRequest();
+        window.scrollTo({top: 0, behavior: "smooth"});
     }, [pagination.page])
 
     return (

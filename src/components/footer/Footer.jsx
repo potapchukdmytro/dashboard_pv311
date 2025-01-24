@@ -1,173 +1,191 @@
-import React, { useState } from "react";
-import { Box, Container, Grid, Typography, IconButton, Switch, Link, Tooltip, useTheme } from "@mui/material";
-import { styled } from "@mui/system";
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
-import { MdEmail, MdPhone, MdLocationOn } from "react-icons/md";
+import React, {useState} from "react";
+import {Box, Container, Grid, Typography, TextField, Button, IconButton, Snackbar, Alert} from "@mui/material";
+import {styled} from "@mui/system";
+import {FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube} from "react-icons/fa";
 
-const StyledFooter = styled(Box)(({ theme, darkmode }) => ({
-    background: darkmode
-        ? "linear-gradient(45deg, #1a237e 30%, #311b92 90%)"
-        : "linear-gradient(45deg, #f5f5f5 30%, #e0e0e0 90%)",
-    padding: theme.spacing(6, 0),
-    color: darkmode ? "#fff" : "#333",
-    transition: "all 0.3s ease-in-out",
-    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
-    position: "relative",
-    zIndex: 1,
-    "&::before": {
-        content: '""',
-        position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        height: "4px",
-        background: "linear-gradient(90deg, #ff4081 0%, #7c4dff 100%)"
-    }
+const StyledFooter = styled(Box)(({theme}) => ({
+    backgroundColor: "#1a1a1a",
+    color: "#ffffff",
+    padding: "64px 0 32px",
 }));
 
-const SocialButton = styled(IconButton)(({ theme, darkmode }) => ({
-    margin: theme.spacing(0, 1),
-    color: darkmode ? "#fff" : "#333",
-    transition: "all 0.3s ease",
-    "&:hover": {
-        transform: "translateY(-3px)",
-        color: "#7c4dff"
+const FooterColumn = styled(Box)(({theme}) => ({
+    "& h6": {
+        fontWeight: 600,
+        marginBottom: "24px",
     },
-    "&:focus": {
-        outline: "2px solid #7c4dff",
-        outlineOffset: "2px"
-    }
+    "& ul": {
+        listStyle: "none",
+        padding: 0,
+        margin: 0,
+    },
+    "& li": {
+        marginBottom: "12px",
+        cursor: "pointer",
+        transition: "color 0.3s ease",
+        "&:hover": {
+            color: "#4dabf5",
+        },
+    },
 }));
 
-const FooterLink = styled(Link)(({ theme, darkmode }) => ({
-    color: darkmode ? "#fff" : "#333",
-    textDecoration: "none",
-    transition: "color 0.2s ease",
-    position: "relative",
-    "&::after": {
-        content: '""',
-        position: "absolute",
-        bottom: -2,
-        left: 0,
-        width: 0,
-        height: "2px",
-        background: "#7c4dff",
-        transition: "width 0.3s ease"
-    },
-    "&:hover::after": {
-        width: "100%"
-    },
-    "&:hover": {
-        color: "#7c4dff"
-    }
+const NewsletterSection = styled(Box)(({theme}) => ({
+    backgroundColor: "#2a2a2a",
+    padding: "32px",
+    borderRadius: "8px",
+    marginTop: "32px",
 }));
 
-const ContactItem = styled(Box)(({ theme }) => ({
-    display: "flex",
-    alignItems: "center",
-    marginBottom: theme.spacing(2),
-    transition: "transform 0.2s ease",
+const SocialIcon = styled(IconButton)(({theme}) => ({
+    color: "#ffffff",
+    margin: "0 8px",
+    transition: "transform 0.3s ease, color 0.3s ease",
     "&:hover": {
-        transform: "translateX(5px)"
-    }
+        transform: "translateY(-4px)",
+        color: "#4dabf5",
+    },
 }));
 
 const Footer = () => {
-    const [darkmode, setdarkmode] = useState(false);
-    const theme = useTheme();
+    const [email, setEmail] = useState("");
+    const [error, setError] = useState("");
+    const [openSnackbar, setOpenSnackbar] = useState(false);
 
-    const handledarkmodeToggle = () => {
-        setdarkmode(!darkmode);
+    const handleSubscribe = () => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            setError("Please enter a valid email address");
+            return;
+        }
+        setError("");
+        setOpenSnackbar(true);
+        setEmail("");
+    };
+
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
     };
 
     return (
-        <StyledFooter darkmode={darkmode}>
+        <StyledFooter component="footer" role="contentinfo">
             <Container maxWidth="lg">
                 <Grid container spacing={4}>
                     <Grid item xs={12} sm={6} md={3}>
-                        <Typography variant="h6" gutterBottom sx={{ fontWeight: "bold" }}>
-                            About Us
-                        </Typography>
-                        <Typography variant="body2" sx={{ mb: 2 }}>
-                            We are dedicated to providing innovative solutions and exceptional services to our valued customers worldwide.
-                        </Typography>
-                        <Box sx={{ display: "flex", alignItems: "center" }}>
-                            <Typography variant="body2" sx={{ mr: 1 }}>
-                                Dark Mode
-                            </Typography>
-                            <Switch
-                                checked={darkmode}
-                                onChange={handledarkmodeToggle}
-                                color="primary"
-                                inputProps={{ "aria-label": "toggle dark mode" }}
-                            />
-                        </Box>
+                        <FooterColumn>
+                            <Typography variant="h6">Product Features</Typography>
+                            <ul>
+                                <li role="link" tabIndex={0}>Solutions</li>
+                                <li role="link" tabIndex={0}>Integrations</li>
+                                <li role="link" tabIndex={0}>Pricing Plans</li>
+                                <li role="link" tabIndex={0}>Product Updates</li>
+                            </ul>
+                        </FooterColumn>
                     </Grid>
 
                     <Grid item xs={12} sm={6} md={3}>
-                        <Typography variant="h6" gutterBottom sx={{ fontWeight: "bold" }}>
-                            Quick Links
-                        </Typography>
-                        <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-                            <FooterLink href="#" darkmode={darkmode}>Home</FooterLink>
-                            <FooterLink href="#" darkmode={darkmode}>Services</FooterLink>
-                            <FooterLink href="#" darkmode={darkmode}>Products</FooterLink>
-                            <FooterLink href="#" darkmode={darkmode}>Contact</FooterLink>
-                        </Box>
+                        <FooterColumn>
+                            <Typography variant="h6">Company Information</Typography>
+                            <ul>
+                                <li role="link" tabIndex={0}>About Us</li>
+                                <li role="link" tabIndex={0}>Careers</li>
+                                <li role="link" tabIndex={0}>Press Kit</li>
+                                <li role="link" tabIndex={0}>Contact Us</li>
+                            </ul>
+                        </FooterColumn>
                     </Grid>
 
                     <Grid item xs={12} sm={6} md={3}>
-                        <Typography variant="h6" gutterBottom sx={{ fontWeight: "bold" }}>
-                            Contact Info
-                        </Typography>
-                        <ContactItem>
-                            <MdLocationOn style={{ marginRight: "8px" }} />
-                            <Typography variant="body2">123 Business Street, NY 10001</Typography>
-                        </ContactItem>
-                        <ContactItem>
-                            <MdPhone style={{ marginRight: "8px" }} />
-                            <Typography variant="body2">+1 234 567 8900</Typography>
-                        </ContactItem>
-                        <ContactItem>
-                            <MdEmail style={{ marginRight: "8px" }} />
-                            <Typography variant="body2">contact@example.com</Typography>
-                        </ContactItem>
+                        <FooterColumn>
+                            <Typography variant="h6">Customer Support</Typography>
+                            <ul>
+                                <li role="link" tabIndex={0}>Help Center</li>
+                                <li role="link" tabIndex={0}>Documentation</li>
+                                <li role="link" tabIndex={0}>Community Forums</li>
+                                <li role="link" tabIndex={0}>Status Page</li>
+                            </ul>
+                        </FooterColumn>
                     </Grid>
 
                     <Grid item xs={12} sm={6} md={3}>
-                        <Typography variant="h6" gutterBottom sx={{ fontWeight: "bold" }}>
-                            Follow Us
-                        </Typography>
-                        <Box>
-                            <Tooltip title="Facebook" arrow>
-                                <SocialButton aria-label="facebook" darkmode={darkmode}>
-                                    <FaFacebook />
-                                </SocialButton>
-                            </Tooltip>
-                            <Tooltip title="Twitter" arrow>
-                                <SocialButton aria-label="twitter" darkmode={darkmode}>
-                                    <FaTwitter />
-                                </SocialButton>
-                            </Tooltip>
-                            <Tooltip title="Instagram" arrow>
-                                <SocialButton aria-label="instagram" darkmode={darkmode}>
-                                    <FaInstagram />
-                                </SocialButton>
-                            </Tooltip>
-                            <Tooltip title="LinkedIn" arrow>
-                                <SocialButton aria-label="linkedin" darkmode={darkmode}>
-                                    <FaLinkedin />
-                                </SocialButton>
-                            </Tooltip>
-                        </Box>
+                        <FooterColumn>
+                            <Typography variant="h6">Legal & Policies</Typography>
+                            <ul>
+                                <li role="link" tabIndex={0}>Privacy Policy</li>
+                                <li role="link" tabIndex={0}>Terms of Service</li>
+                                <li role="link" tabIndex={0}>Cookie Policy</li>
+                                <li role="link" tabIndex={0}>Security</li>
+                            </ul>
+                        </FooterColumn>
                     </Grid>
                 </Grid>
 
-                <Box sx={{ mt: 4, pt: 2, borderTop: "1px solid", borderColor: darkmode ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)" }}>
-                    <Typography variant="body2" align="center">
+                <NewsletterSection>
+                    <Typography variant="h6" gutterBottom>
+                        Subscribe to Our Newsletter
+                    </Typography>
+                    <Typography variant="body2" sx={{mb: 3}}>
+                        Stay updated with our latest news, updates, and exclusive offers.
+                    </Typography>
+                    <Box sx={{display: "flex", gap: 2}}>
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            placeholder="Enter your email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            error={Boolean(error)}
+                            helperText={error}
+                            sx={{
+                                backgroundColor: "rgba(255, 255, 255, 0.1)",
+                                input: {color: "#ffffff"},
+                                "& .MuiOutlinedInput-root": {
+                                    "& fieldset": {borderColor: "rgba(255, 255, 255, 0.3)"},
+                                    "&:hover fieldset": {borderColor: "rgba(255, 255, 255, 0.5)"},
+                                }
+                            }}
+                        />
+                        <Button
+                            variant="contained"
+                            onClick={handleSubscribe}
+                            sx={{
+                                minWidth: "120px",
+                                backgroundColor: "#4dabf5",
+                                "&:hover": {backgroundColor: "#2196f3"}
+                            }}
+                        >
+                            Subscribe
+                        </Button>
+                    </Box>
+                </NewsletterSection>
+
+                <Box sx={{mt: 4, textAlign: "center"}}>
+                    <Box sx={{mb: 2}}>
+                        <SocialIcon aria-label="Facebook" component="a" href="#">
+                            <FaFacebook size={24}/>
+                        </SocialIcon>
+                        <SocialIcon aria-label="Twitter" component="a" href="#">
+                            <FaTwitter size={24}/>
+                        </SocialIcon>
+                        <SocialIcon aria-label="Instagram" component="a" href="#">
+                            <FaInstagram size={24}/>
+                        </SocialIcon>
+                        <SocialIcon aria-label="LinkedIn" component="a" href="#">
+                            <FaLinkedin size={24}/>
+                        </SocialIcon>
+                        <SocialIcon aria-label="YouTube" component="a" href="#">
+                            <FaYoutube size={24}/>
+                        </SocialIcon>
+                    </Box>
+                    <Typography variant="body2" color="text.secondary">
                         © {new Date().getFullYear()} Your Company Name. All rights reserved.
                     </Typography>
                 </Box>
+
+                <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+                    <Alert onClose={handleCloseSnackbar} severity="success" sx={{width: "100%"}}>
+                        Thank you for subscribing to our newsletter!
+                    </Alert>
+                </Snackbar>
             </Container>
         </StyledFooter>
     );

@@ -12,10 +12,10 @@ import {
     TableHead,
     TableRow,
 } from "@mui/material";
-import usersJson from "./users";
+import usersJson from "./users.json";
 import { Link } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
-import {defaultAvatarUrl} from "../../settings/urls";
+import {defaultAvatarUrl} from "../../../settings/urls";
 
 const UsersListPage = () => {
     const [users, setUsers] = useState([]);
@@ -43,6 +43,7 @@ const UsersListPage = () => {
                             <TableCell align="center">First name</TableCell>
                             <TableCell align="center">Last name</TableCell>
                             <TableCell align="center">Email</TableCell>
+                            <TableCell align="center">Role</TableCell>
                             <TableCell align="center">Password</TableCell>
                             <TableCell align="center"></TableCell>
                         </TableRow>
@@ -75,6 +76,9 @@ const UsersListPage = () => {
                                 </TableCell>
                                 <TableCell align="center">
                                     {user.email}
+                                </TableCell>
+                                <TableCell align="center">
+                                    {user.role}
                                 </TableCell>
                                 <TableCell align="center">
                                     {user.password}

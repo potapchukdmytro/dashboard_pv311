@@ -1,6 +1,9 @@
 import "./style.css";
+import {useNavigate} from "react-router-dom";
 
 const NotFoundPage = () => {
+    const navigate = useNavigate();
+
     return (
         <>
             <header className="top-header">
@@ -30,7 +33,7 @@ const NotFoundPage = () => {
                             at our.</p>
                     </div>
                     <div className="error__nav e-nav">
-                        <a href="https://codepen.io/uiswarup/pen/qBebRpq" target="_blanck" className="e-nav__link"></a>
+                        <label onClick={() => navigate(-1)} className="e-nav__link"></label>
                     </div>
                 </div>
             </section>

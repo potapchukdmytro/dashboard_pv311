@@ -43,9 +43,16 @@ const Navbar = ({isDark = false, themeCallback}) => {
                 <Link style={navLinkStyle} to="/about">
                     About
                 </Link>
-                <Link style={navLinkStyle} to="/users">
-                    Users
-                </Link>
+                {
+                    auth && auth.role === "admin" ? (
+                        <Link style={navLinkStyle} to="/admin">
+                            Admin panel
+                        </Link>
+                    ) : (
+                        <Link style={navLinkStyle} to="/">
+                            Page
+                        </Link>)
+                }
                 <Link style={navLinkStyle} to="/">
                     Page 4
                 </Link>
@@ -86,7 +93,7 @@ const Navbar = ({isDark = false, themeCallback}) => {
                     <>
                         <Box style={{display: "flex", justifyContent: "center"}}>
                             <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                                <Avatar alt="Remy Sharp" src={auth.image ? auth.image : defaultAvatarUrl} />
+                                <Avatar alt="Remy Sharp" src={auth.image ? auth.image : defaultAvatarUrl}/>
                             </IconButton>
                         </Box>
                         <Menu

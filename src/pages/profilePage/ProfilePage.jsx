@@ -1,5 +1,4 @@
 import './style.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import {useContext} from "react";
 import {AuthContext} from "../../components/providers/AuthProvider";
 import {defaultAvatarUrl} from "../../settings/urls";
