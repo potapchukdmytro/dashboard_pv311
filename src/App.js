@@ -13,7 +13,6 @@ import {AuthContext} from "./components/providers/AuthProvider";
 import ProfilePage from "./pages/profilePage/ProfilePage";
 import AdminPanelLayout from "./components/layouts/AdminPanelLayout";
 import RolesListPage from "./pages/admin/roles/RolesListPage";
-import loginPage from "./pages/loginPage/LoginPage";
 
 const App = () => {
     const {auth, login} = useContext(AuthContext);
