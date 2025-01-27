@@ -5,10 +5,12 @@ import * as Yup from "yup";
 import "./style.css";
 import { FormError } from "../../../../components/errors/Errors";
 import { useEffect } from "react";
+import {useDispatch} from "react-redux";
 
 const EditUserPage = ({ isEdit = false }) => {
     const navigate = useNavigate();
     const params = useParams();
+    const dispatch = useDispatch();
 
     const formEditHandler = (values) => {
         const localData = localStorage.getItem("users");
@@ -20,17 +22,19 @@ const EditUserPage = ({ isEdit = false }) => {
         const userIndex = users.findIndex((u) => u.id == values.id);
         users[userIndex] = { ...values };
         localStorage.setItem("users", JSON.stringify(users));
+        dispatch({ type: "USER_UPDATE", payload: users });
 
         navigate("/admin/users");
     };
 
     const formCreateHandler = (values) => {
         const users = localStorage.getItem("users");
+        values.id = 1;
 
         if (!users) {
-            localStorage.setItem(
-                "users",
-                JSON.stringify([{ ...values, id: 1 }])
+                localStorage.setItem(
+                    "users",
+                    JSON.stringify([{ ...values }])
             );
         } else {
             const array = JSON.parse(users);
@@ -38,6 +42,7 @@ const EditUserPage = ({ isEdit = false }) => {
             array.push(values);
             localStorage.setItem("users", JSON.stringify(array));
         }
+        dispatch({type:"USER_CREATE", payload: values});
 
         navigate("/admin/users");
     };

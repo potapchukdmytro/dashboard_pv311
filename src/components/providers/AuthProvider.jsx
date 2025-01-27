@@ -5,6 +5,7 @@ export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
     const [auth, setAuth] = useState(null);
+    const [google, setGoogle] = useState(null);
     const navigate = useNavigate();
 
     const login = () => {
@@ -22,7 +23,7 @@ const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{auth, login, logout}}>
+        <AuthContext.Provider value={{auth, login, logout, google, setGoogle}}>
             {children}
         </AuthContext.Provider>
     );

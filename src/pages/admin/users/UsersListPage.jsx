@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
     Avatar,
     Box,
@@ -15,20 +15,30 @@ import {
 import usersJson from "./users.json";
 import { Link } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from '@mui/icons-material/Delete';
 import {defaultAvatarUrl} from "../../../settings/urls";
+import {useDispatch, useSelector} from "react-redux";
 
 const UsersListPage = () => {
-    const [users, setUsers] = useState([]);
+    const dispatch = useDispatch();
+    const { users, isLoaded } = useSelector(state => state.user);
+
+    const deleteHandler = (id) => {
+        localStorage.setItem("users", JSON.stringify(users.filter(u => u.id != id)));
+        dispatch({type: "USER_DELETE", payload: id});
+    }
 
     useEffect(() => {
-        const json = localStorage.getItem("users");
+        if(!isLoaded){
+            const json = localStorage.getItem("users");
 
-        if (!json) {
-            localStorage.setItem("users", JSON.stringify(usersJson));
-            setUsers(usersJson);
-        } else {
-            const data = JSON.parse(json);
-            setUsers(data);
+            if (!json) {
+                localStorage.setItem("users", JSON.stringify(usersJson));
+                dispatch({type: "USERS_LOAD", payload: usersJson});
+            } else {
+                const data = JSON.parse(json);
+                dispatch({type: "USERS_LOAD", payload: data});
+            }
         }
     }, []);
 
@@ -89,6 +99,9 @@ const UsersListPage = () => {
                                             <EditIcon />
                                         </IconButton>
                                     </Link>
+                                    <IconButton onClick={() => deleteHandler(user.id)}>
+                                        <DeleteIcon color="error" />
+                                    </IconButton>
                                 </TableCell>
                             </TableRow>
                         ))}

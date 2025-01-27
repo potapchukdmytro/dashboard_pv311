@@ -13,19 +13,27 @@ import {AuthContext} from "./components/providers/AuthProvider";
 import ProfilePage from "./pages/profilePage/ProfilePage";
 import AdminPanelLayout from "./components/layouts/AdminPanelLayout";
 import RolesListPage from "./pages/admin/roles/RolesListPage";
+import {useDispatch, useSelector} from "react-redux";
 
 const App = () => {
-    const {auth, login} = useContext(AuthContext);
+    const { isAuth, user } = useSelector(state => state.auth);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        login();
+        const user = localStorage.getItem("user");
+        if(user) {
+            dispatch({
+                type: "USER_LOGIN",
+                payload: JSON.parse(user)
+            })
+        }
     }, []);
 
     return (
         <Routes>
             <Route path="/" element={<DefaultLayout/>}>
                 <Route index element={<MainPage/>}/>
-                {!auth ? (
+                {!isAuth ? (
                         <>
                             <Route path="register" element={<RegisterPage/>}/>
                             <Route path="login" element={<LoginPage/>}/>
@@ -36,7 +44,7 @@ const App = () => {
                 <Route path="*" element={<NotFoundPage/>}/>
             </Route>
             {
-                auth && auth.role === "admin" && (
+                isAuth && user.role === "admin" && (
                     <Route path="admin" element={<AdminPanelLayout/>}>
                         <Route path="users">
                             <Route index element={<UsersListPage/>}/>

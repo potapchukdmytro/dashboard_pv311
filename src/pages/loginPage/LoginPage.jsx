@@ -6,10 +6,12 @@ import { FormError } from "../../components/errors/Errors";
 import { Link, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../components/providers/AuthProvider";
+import {useDispatch} from "react-redux";
 
 const LoginPage = () => {
     const [loginError, setLoginError] = useState(null);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const { login } = useContext(AuthContext);
 
     const formHandler = (values) => {
@@ -25,8 +27,12 @@ const LoginPage = () => {
         setLoginError(null);
         if (user) {
             if (user.password === values.password) {
-                localStorage.setItem("auth", JSON.stringify(user));
-                login();
+                localStorage.setItem("user", JSON.stringify(user));
+                dispatch({
+                    type: "USER_LOGIN",
+                    payload: user
+                });
+                // login();
                 navigate("/");
             } else {
                 setLoginError("Не вірно вказано пароль");

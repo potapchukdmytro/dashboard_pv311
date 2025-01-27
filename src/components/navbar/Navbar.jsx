@@ -4,15 +4,20 @@ import LightModeIcon from "@mui/icons-material/LightMode";
 import "./style.css";
 import {IconButton, Button, Avatar, Box, Menu, MenuItem, Typography} from "@mui/material";
 import {Link, useNavigate} from "react-router-dom";
-import {useContext, useState} from "react";
-import {AuthContext} from "../providers/AuthProvider";
+import {useState} from "react";
 import {defaultAvatarUrl} from "../../settings/urls";
+import {useDispatch, useSelector} from "react-redux";
 
 const Navbar = ({isDark = false, themeCallback}) => {
     const navLinkStyle = isDark ? style.navLinkDark : style.navLinkLight;
-    const {auth, logout} = useContext(AuthContext);
     const [anchorElUser, setAnchorElUser] = useState(null);
     const navigate = useNavigate();
+    const { isAuth, user } = useSelector(state => state.auth);
+    const dispatch = useDispatch();
+
+    const logoutHandler = () => {
+        dispatch({ type: "USER_LOGOUT" });
+    }
 
     const settings = [
         {
@@ -20,7 +25,7 @@ const Navbar = ({isDark = false, themeCallback}) => {
                 navigate("/profile")
             }
         },
-        {name: 'Logout', action: logout}
+        {name: 'Logout', action: logoutHandler}
     ];
 
     const handleOpenUserMenu = (event) => {
@@ -44,7 +49,7 @@ const Navbar = ({isDark = false, themeCallback}) => {
                     About
                 </Link>
                 {
-                    auth && auth.role === "admin" ? (
+                    isAuth && user.role === "admin" ? (
                         <Link style={navLinkStyle} to="/admin">
                             Admin panel
                         </Link>
@@ -70,7 +75,7 @@ const Navbar = ({isDark = false, themeCallback}) => {
                 )}
             </div>
             <div style={{flexGrow: 1}}>
-                {!auth ? (
+                {!isAuth ? (
                     <Box className="navauth">
                         <Link to="login">
                             <Button
@@ -93,7 +98,7 @@ const Navbar = ({isDark = false, themeCallback}) => {
                     <>
                         <Box style={{display: "flex", justifyContent: "center"}}>
                             <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                                <Avatar alt="Remy Sharp" src={auth.image ? auth.image : defaultAvatarUrl}/>
+                                <Avatar alt="Remy Sharp" src={user.image ? user.image : defaultAvatarUrl}/>
                             </IconButton>
                         </Box>
                         <Menu
