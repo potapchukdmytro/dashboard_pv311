@@ -4,28 +4,16 @@ import * as Yup from "yup";
 import "./style.css";
 import { FormError } from "../../components/errors/Errors";
 import { Link, useNavigate } from "react-router-dom";
+import useAction from "../../hooks/useAction";
 
 const RegisterPage = () => {
     const navigate = useNavigate();
+    const {register} = useAction();
 
     const formHandler = (values) => {
         delete values.confirmPassword;
-
-        const users = localStorage.getItem("users");
-
-        if (!users) {
-            localStorage.setItem(
-                "users",
-                JSON.stringify([{ ...values, id: 1 }])
-            );
-        } else {
-            const array = JSON.parse(users);
-            values.id = array[array.length - 1].id + 1;
-            values.role = "user";
-            array.push(values);
-            localStorage.setItem("users", JSON.stringify(array));
-        }
-
+        values.role = "user";
+        register(values);
         navigate("/");
     };
 
@@ -36,6 +24,7 @@ const RegisterPage = () => {
         email: "",
         password: "",
         confirmPassword: "",
+        image: ""
     };
 
     // validation yup scheme
@@ -147,6 +136,19 @@ const RegisterPage = () => {
                 formik.errors.confirmPassword ? (
                     <FormError text={formik.errors.confirmPassword} />
                 ) : null}
+            </Box>
+            <Box className="form-control">
+                <TextField
+                    type="text"
+                    id="image"
+                    name="image"
+                    label="Image"
+                    variant="filled"
+                    fullWidth
+                    onChange={formik.handleChange}
+                    value={formik.values.image}
+                    onBlur={formik.handleBlur}
+                />
             </Box>
             <Box className="form-control">
                 <Button type="submit" variant="contained" fullWidth>

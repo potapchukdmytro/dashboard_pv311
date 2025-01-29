@@ -4,41 +4,21 @@ import * as Yup from "yup";
 import "./../registerPage/style.css";
 import { FormError } from "../../components/errors/Errors";
 import { Link, useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
-import { AuthContext } from "../../components/providers/AuthProvider";
-import {useDispatch} from "react-redux";
+import { useState } from "react";
+import useAction from "../../hooks/useAction";
 
 const LoginPage = () => {
     const [loginError, setLoginError] = useState(null);
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const { login } = useContext(AuthContext);
+    const {login} = useAction();
 
     const formHandler = (values) => {
-        const localData = localStorage.getItem("users");
-
-        if (!localData) {
-            navigate("/register");
-        }
-
-        const users = JSON.parse(localData);
-        const user = users.find((u) => u.email === values.email);
-
         setLoginError(null);
-        if (user) {
-            if (user.password === values.password) {
-                localStorage.setItem("user", JSON.stringify(user));
-                dispatch({
-                    type: "USER_LOGIN",
-                    payload: user
-                });
-                // login();
-                navigate("/");
-            } else {
-                setLoginError("Не вірно вказано пароль");
-            }
+        const res = login(values);
+        if(res.type === "ERROR") {
+            setLoginError(res.payload);
         } else {
-            setLoginError(`Не знайдено користувача з поштою ${values.email}`);
+            navigate("/");
         }
     };
 

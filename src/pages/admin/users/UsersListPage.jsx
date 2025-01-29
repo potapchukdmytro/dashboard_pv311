@@ -12,33 +12,24 @@ import {
     TableHead,
     TableRow,
 } from "@mui/material";
-import usersJson from "./users.json";
 import { Link } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {defaultAvatarUrl} from "../../../settings/urls";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
+import useAction from "../../../hooks/useAction";
 
 const UsersListPage = () => {
-    const dispatch = useDispatch();
     const { users, isLoaded } = useSelector(state => state.user);
+    const {loadUsers, deleteUser} = useAction();
 
     const deleteHandler = (id) => {
-        localStorage.setItem("users", JSON.stringify(users.filter(u => u.id != id)));
-        dispatch({type: "USER_DELETE", payload: id});
+        deleteUser(id);
     }
 
     useEffect(() => {
         if(!isLoaded){
-            const json = localStorage.getItem("users");
-
-            if (!json) {
-                localStorage.setItem("users", JSON.stringify(usersJson));
-                dispatch({type: "USERS_LOAD", payload: usersJson});
-            } else {
-                const data = JSON.parse(json);
-                dispatch({type: "USERS_LOAD", payload: data});
-            }
+            loadUsers();
         }
     }, []);
 

@@ -9,23 +9,30 @@ import DefaultLayout from "./components/layouts/DefaultLayout";
 import UsersListPage from "./pages/admin/users/UsersListPage";
 import EditUserPage from "./pages/admin/users/editUserPage/EditUserPage";
 import LoginPage from "./pages/loginPage/LoginPage";
-import {AuthContext} from "./components/providers/AuthProvider";
 import ProfilePage from "./pages/profilePage/ProfilePage";
 import AdminPanelLayout from "./components/layouts/AdminPanelLayout";
 import RolesListPage from "./pages/admin/roles/RolesListPage";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
+import usersJson from "./pages/admin/users/users.json";
+import useAction from "./hooks/useAction";
 
 const App = () => {
     const { isAuth, user } = useSelector(state => state.auth);
-    const dispatch = useDispatch();
+    const {login} = useAction();
 
+    // load user list
+    useEffect(() => {
+        const localData = localStorage.getItem("users");
+        if(!localData) {
+            localStorage.setItem("users", JSON.stringify(usersJson));
+        }
+    }, []);
+
+    // user login
     useEffect(() => {
         const user = localStorage.getItem("user");
         if(user) {
-            dispatch({
-                type: "USER_LOGIN",
-                payload: JSON.parse(user)
-            })
+            login(JSON.parse(user));
         }
     }, []);
 

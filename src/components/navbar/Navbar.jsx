@@ -6,17 +6,18 @@ import {IconButton, Button, Avatar, Box, Menu, MenuItem, Typography} from "@mui/
 import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
 import {defaultAvatarUrl} from "../../settings/urls";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
+import useAction from "../../hooks/useAction";
 
 const Navbar = ({isDark = false, themeCallback}) => {
     const navLinkStyle = isDark ? style.navLinkDark : style.navLinkLight;
     const [anchorElUser, setAnchorElUser] = useState(null);
     const navigate = useNavigate();
     const { isAuth, user } = useSelector(state => state.auth);
-    const dispatch = useDispatch();
+    const {logout} = useAction();
 
     const logoutHandler = () => {
-        dispatch({ type: "USER_LOGOUT" });
+        logout();
     }
 
     const settings = [
@@ -133,7 +134,6 @@ const Navbar = ({isDark = false, themeCallback}) => {
             </div>
         </div>
     )
-        ;
 };
 
 export default Navbar;

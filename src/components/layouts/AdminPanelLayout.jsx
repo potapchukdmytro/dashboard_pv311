@@ -8,7 +8,7 @@ const AdminPanelLayout = () => {
     return (
         <>
             <Navbar/>
-            <Grid container spacing={2} sx={{height: "100vh"}}>
+            <Grid container spacing={2} sx={{minHeight: "100vh", my: "10px"}}>
                 <Grid size={2}>
                     <AdminPanelMenu/>
                 </Grid>
