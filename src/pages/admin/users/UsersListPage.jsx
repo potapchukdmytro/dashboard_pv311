@@ -18,14 +18,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import {defaultAvatarUrl} from "../../../settings/urls";
 import {useSelector} from "react-redux";
 import useAction from "../../../hooks/useAction";
+import ModalDelete from "../../../components/modal/ModalDelete";
 
 const UsersListPage = () => {
+    const [modalOpen, setModalOpen] = React.useState(false);
+    const [userId, setUserId] = React.useState(0);
     const { users, isLoaded } = useSelector(state => state.user);
     const {loadUsers, deleteUser} = useAction();
-
-    const deleteHandler = (id) => {
-        deleteUser(id);
-    }
 
     useEffect(() => {
         if(!isLoaded){
@@ -90,7 +89,10 @@ const UsersListPage = () => {
                                             <EditIcon />
                                         </IconButton>
                                     </Link>
-                                    <IconButton onClick={() => deleteHandler(user.id)}>
+                                    <IconButton onClick={() => {
+                                        setUserId(user.id)
+                                        setModalOpen(true)
+                                    }}>
                                         <DeleteIcon color="error" />
                                     </IconButton>
                                 </TableCell>
@@ -103,6 +105,14 @@ const UsersListPage = () => {
                 <Link to="user">
                     <Button variant="contained">Create</Button>
                 </Link>
+            </Box>
+            <Box>
+                <ModalDelete
+                    title="User delete"
+                    text="Are you sure?"
+                    open={modalOpen}
+                    handleClose={() => setModalOpen(false)}
+                    action={() => {deleteUser(userId)}}/>
             </Box>
         </Box>
     );
