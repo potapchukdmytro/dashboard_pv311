@@ -11,6 +11,8 @@ const authReducer = (state = authState, action) => {
             return {...state, isAuth: true, user: action.payload};
         case "USER_LOGOUT":
             return {...state, isAuth: false, user: null};
+        case "GOOGLE_LOGIN":
+            return {...state, isAuth: true, user: action.payload};
         default:
             return state;
     }

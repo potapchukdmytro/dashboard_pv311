@@ -1,26 +1,40 @@
-import { TextField, Box, Button, Typography } from "@mui/material";
-import { useFormik } from "formik";
+import {TextField, Box, Button, Typography} from "@mui/material";
+import {useFormik} from "formik";
 import * as Yup from "yup";
 import "./../registerPage/style.css";
-import { FormError } from "../../components/errors/Errors";
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import {FormError} from "../../components/errors/Errors";
+import {Link, useNavigate} from "react-router-dom";
+import {useState} from "react";
 import useAction from "../../hooks/useAction";
+import {GoogleLogin, GoogleOAuthProvider} from "@react-oauth/google";
+
+const clientId = "";
 
 const LoginPage = () => {
     const [loginError, setLoginError] = useState(null);
     const navigate = useNavigate();
-    const {login} = useAction();
+    const {login, googleLogin} = useAction();
 
     const formHandler = (values) => {
         setLoginError(null);
         const res = login(values);
-        if(res.type === "ERROR") {
+        if (res.type === "ERROR") {
             setLoginError(res.payload);
         } else {
             navigate("/");
         }
     };
+
+    // google login
+    const googleLoginHandler = (response) => {
+        const jwtToken = response.credential;
+        googleLogin(jwtToken);
+        navigate("/");
+    }
+
+    const googleErrorHandler = () => {
+        console.log("Google login error")
+    }
 
     // init values
     const initValues = {
@@ -46,61 +60,75 @@ const LoginPage = () => {
     });
 
     return (
-        <Box
-            component="form"
-            onSubmit={formik.handleSubmit}
-            className="form-container"
-        >
-            <Box>
-                <h1>Login page</h1>
+        <GoogleOAuthProvider clientId={clientId}>
+            <Box
+                component="form"
+                onSubmit={formik.handleSubmit}
+                className="form-container"
+            >
+                <Box>
+                    <h1>Login page</h1>
+                </Box>
+                <Box className="form-control">
+                    <TextField
+                        type="email"
+                        id="email"
+                        name="email"
+                        label="Email"
+                        variant="filled"
+                        fullWidth
+                        onChange={formik.handleChange}
+                        value={formik.values.email}
+                        onBlur={formik.handleBlur}
+                    />
+                    {formik.touched.email && formik.errors.email ? (
+                        <FormError text={formik.errors.email}/>
+                    ) : null}
+                </Box>
+                <Box className="form-control">
+                    <TextField
+                        type="password"
+                        id="password"
+                        name="password"
+                        label="Password"
+                        variant="filled"
+                        fullWidth
+                        onChange={formik.handleChange}
+                        value={formik.values.password}
+                        onBlur={formik.handleBlur}
+                    />
+                    {formik.touched.password && formik.errors.password ? (
+                        <FormError text={formik.errors.password}/>
+                    ) : null}
+                </Box>
+                <Box className="form-control">
+                    <Button type="submit" variant="contained" fullWidth>
+                        Login
+                    </Button>
+                </Box>
+                <Box>
+                    <Typography>
+                        Ще не зареєстровані?{" "}
+                        <Link to="/register">Зареєструватися</Link>
+                    </Typography>
+                </Box>
+                <Box>
+                    <FormError text={loginError}/>
+                </Box>
+                <Box sx={{mt: 2}}>
+                    <GoogleLogin
+                    onSuccess={googleLoginHandler}
+                    onError={googleErrorHandler}
+                    type="standard"
+                    theme="outline"
+                    size="large"
+                    text="signin"
+                    shape="rectangular"
+                    logo_alignment="left"
+                    useOneTap={true}/>
+                </Box>
             </Box>
-            <Box className="form-control">
-                <TextField
-                    type="email"
-                    id="email"
-                    name="email"
-                    label="Email"
-                    variant="filled"
-                    fullWidth
-                    onChange={formik.handleChange}
-                    value={formik.values.email}
-                    onBlur={formik.handleBlur}
-                />
-                {formik.touched.email && formik.errors.email ? (
-                    <FormError text={formik.errors.email} />
-                ) : null}
-            </Box>
-            <Box className="form-control">
-                <TextField
-                    type="password"
-                    id="password"
-                    name="password"
-                    label="Password"
-                    variant="filled"
-                    fullWidth
-                    onChange={formik.handleChange}
-                    value={formik.values.password}
-                    onBlur={formik.handleBlur}
-                />
-                {formik.touched.password && formik.errors.password ? (
-                    <FormError text={formik.errors.password} />
-                ) : null}
-            </Box>
-            <Box className="form-control">
-                <Button type="submit" variant="contained" fullWidth>
-                    Login
-                </Button>
-            </Box>
-            <Box>
-                <Typography>
-                    Ще не зареєстровані?{" "}
-                    <Link to="/register">Зареєструватися</Link>
-                </Typography>
-            </Box>
-            <Box>
-                <FormError text={loginError} />
-            </Box>
-        </Box>
+        </GoogleOAuthProvider>
     );
 };
 

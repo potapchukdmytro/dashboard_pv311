@@ -1,3 +1,5 @@
+import {jwtDecode} from "jwt-decode";
+
 export const login = ({email, password}) => {
     const localData = localStorage.getItem("users");
     if(localData){
@@ -37,4 +39,18 @@ export const register = (user) => {
 export const logout = () => {
     localStorage.removeItem("user");
     return {type: "USER_LOGOUT"};
+}
+
+export const googleLogin = (jwtToken) => {
+    const payload = jwtDecode(jwtToken);
+
+    const user = {
+        email: payload.email,
+        firstName: payload.given_name,
+        lastName: payload.family_name,
+        image: payload.picture,
+        role: "user"
+    };
+
+    return {type: "GOOGLE_LOGIN", payload: user};
 }
