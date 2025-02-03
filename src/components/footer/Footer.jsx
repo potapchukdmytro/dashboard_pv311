@@ -1,11 +1,11 @@
 import React, {useState} from "react";
-import {Box, Container, Grid, Typography, TextField, Button, IconButton, Snackbar, Alert} from "@mui/material";
+import {Box, Container, Grid, Typography, TextField, Button, IconButton, Snackbar, Alert, useTheme} from "@mui/material";
 import {styled} from "@mui/system";
 import {FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube} from "react-icons/fa";
 
 const StyledFooter = styled(Box)(({theme}) => ({
-    backgroundColor: "#1a1a1a",
-    color: "#ffffff",
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.text.main,
     padding: "64px 0 32px",
 }));
 
@@ -24,13 +24,14 @@ const FooterColumn = styled(Box)(({theme}) => ({
         cursor: "pointer",
         transition: "color 0.3s ease",
         "&:hover": {
-            color: "#4dabf5",
+            //color: "#4dabf5",
+            color: theme.palette.text.hover,
         },
     },
 }));
 
 const NewsletterSection = styled(Box)(({theme}) => ({
-    backgroundColor: "#2a2a2a",
+    backgroundColor: theme.palette.primary.dark,
     padding: "32px",
     borderRadius: "8px",
     marginTop: "32px",
@@ -50,6 +51,7 @@ const Footer = () => {
     const [email, setEmail] = useState("");
     const [error, setError] = useState("");
     const [openSnackbar, setOpenSnackbar] = useState(false);
+    const theme = useTheme();
 
     const handleSubscribe = () => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -148,9 +150,10 @@ const Footer = () => {
                             variant="contained"
                             onClick={handleSubscribe}
                             sx={{
+                                color: theme.palette.text.light,
                                 minWidth: "120px",
-                                backgroundColor: "#4dabf5",
-                                "&:hover": {backgroundColor: "#2196f3"}
+                                backgroundColor: theme.palette.secondary.main,
+                                "&:hover": {backgroundColor: theme.palette.secondary.dark}
                             }}
                         >
                             Subscribe
@@ -176,7 +179,7 @@ const Footer = () => {
                             <FaYoutube size={24}/>
                         </SocialIcon>
                     </Box>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="text.main">
                         © {new Date().getFullYear()} Your Company Name. All rights reserved.
                     </Typography>
                 </Box>

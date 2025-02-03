@@ -7,21 +7,10 @@ const NewsPage = () => {
     const [news, setNews] = useState({totalResults: 0, articles: []});
     const [pagination, setPagination] = useState({page: 1, total: 1})
 
-    const apiKey = "eef038525fa7401d8dfe7cf1a9006b10";
+    const apiKey = process.env.REACT_APP_NEWS_API_KEY;
     const lang = "uk";
     const searchParam = "ukraine";
     const pageSize = 20;
-
-    // useEffect(() => {
-    //     axios.get(url)
-    //         .then((response) => {
-    //             console.log(response);
-    //             setNews(response.data);
-    //         })
-    //         .catch((error) => {
-    //             console.log(error);
-    //         })
-    // }, [])
 
     const newsRequest = async () => {
         const url = `https://newsapi.org/v2/everything?apiKey=${apiKey}&q=${searchParam}&language=${lang}&pageSize=${pageSize}&page=${pagination.page}`;
@@ -36,7 +25,7 @@ const NewsPage = () => {
 
     useEffect(() => {
         newsRequest();
-        window.scrollTo({top: 0, behavior: "smooth"});
+        // window.scrollTo({top: 0, behavior: "smooth"});
     }, [pagination.page])
 
     return (

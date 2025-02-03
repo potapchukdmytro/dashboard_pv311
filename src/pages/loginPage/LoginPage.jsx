@@ -8,8 +8,6 @@ import {useState} from "react";
 import useAction from "../../hooks/useAction";
 import {GoogleLogin, GoogleOAuthProvider} from "@react-oauth/google";
 
-const clientId = "";
-
 const LoginPage = () => {
     const [loginError, setLoginError] = useState(null);
     const navigate = useNavigate();
@@ -26,6 +24,8 @@ const LoginPage = () => {
     };
 
     // google login
+    const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+
     const googleLoginHandler = (response) => {
         const jwtToken = response.credential;
         googleLogin(jwtToken);
@@ -102,7 +102,7 @@ const LoginPage = () => {
                     ) : null}
                 </Box>
                 <Box className="form-control">
-                    <Button type="submit" variant="contained" fullWidth>
+                    <Button color="secondary" type="submit" variant="contained" fullWidth>
                         Login
                     </Button>
                 </Box>
