@@ -13,6 +13,10 @@ import PeopleIcon from '@mui/icons-material/People';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import {Link} from "react-router-dom";
 
+const linkStyle = {
+    color: 'black'
+}
+
 const AdminPanelMenu = () => {
     const [open, setOpen] = useState(true);
 
@@ -31,7 +35,7 @@ const AdminPanelMenu = () => {
                 </ListSubheader>
             }
         >
-            <Link to="users">
+            <Link style={linkStyle} to="users">
                 <ListItemButton>
                     <ListItemIcon>
                         <PeopleIcon/>
@@ -39,7 +43,7 @@ const AdminPanelMenu = () => {
                     <ListItemText primary="Users"/>
                 </ListItemButton>
             </Link>
-            <Link to="roles">
+            <Link style={linkStyle} to="roles">
                 <ListItemButton>
                     <ListItemIcon>
                         <AssignmentIndIcon/>

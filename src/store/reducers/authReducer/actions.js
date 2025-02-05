@@ -52,5 +52,10 @@ export const googleLogin = (jwtToken) => {
         role: "user"
     };
 
+    localStorage.setItem("user", JSON.stringify(user));
     return {type: "GOOGLE_LOGIN", payload: user};
+}
+
+export const authUser = (user) => {
+    return {type: "USER_LOGIN", payload: user};
 }

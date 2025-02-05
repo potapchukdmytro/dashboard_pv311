@@ -14,6 +14,7 @@ import AdminPanelLayout from "./components/layouts/AdminPanelLayout";
 import RolesListPage from "./pages/admin/roles/RolesListPage";
 import { useSelector } from "react-redux";
 import usersJson from "./pages/admin/users/users.json";
+import rolesJson from "./pages/admin/roles/roles.json";
 import useAction from "./hooks/useAction";
 import { ThemeProvider } from "@mui/material";
 import { lightTheme, darkTheme } from "./theming/themes";
@@ -21,13 +22,18 @@ import { lightTheme, darkTheme } from "./theming/themes";
 const App = () => {
     const { isAuth, user } = useSelector((state) => state.auth);
     const { theme } = useSelector((state) => state.theme);
-    const { login, setTheme } = useAction();
+    const { authUser, setTheme } = useAction();
 
-    // load user list
+    // load user and role list
     useEffect(() => {
         const localData = localStorage.getItem("users");
         if (!localData) {
             localStorage.setItem("users", JSON.stringify(usersJson));
+        }
+
+        const localRoles = localStorage.getItem("roles");
+        if (!localRoles) {
+            localStorage.setItem("roles", JSON.stringify(rolesJson));
         }
     }, []);
 
@@ -35,7 +41,7 @@ const App = () => {
     useEffect(() => {
         const user = localStorage.getItem("user");
         if (user) {
-            login(JSON.parse(user));
+            authUser(JSON.parse(user));
         }
 
         // theme
