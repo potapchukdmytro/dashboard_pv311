@@ -7,6 +7,9 @@ import AuthProvider from "./components/providers/AuthProvider";
 import {Provider} from "react-redux";
 import {store} from "./store";
 
+// підключення налаштувань локалізації
+import "./localization/config";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <Provider store={store}>
@@ -17,4 +20,3 @@ root.render(
     </BrowserRouter>
 </Provider>
 )
-;

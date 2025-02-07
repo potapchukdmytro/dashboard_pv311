@@ -1,5 +1,6 @@
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
+import LanguageIcon from '@mui/icons-material/Language';
 import {
     IconButton,
     Button,
@@ -16,6 +17,8 @@ import { defaultAvatarUrl } from "../../settings/urls";
 import { useSelector } from "react-redux";
 import useAction from "../../hooks/useAction";
 import { useTheme } from "@mui/material";
+import {useTranslation} from "react-i18next";
+import i18next from "i18next";
 
 const Navbar = () => {
     const [anchorElUser, setAnchorElUser] = useState(null);
@@ -24,6 +27,7 @@ const Navbar = () => {
     const {theme} = useSelector((state) => state.theme);
     const { logout, setTheme } = useAction();
     const muiTheme = useTheme();
+    const {t} = useTranslation();
 
     const navLinkStyle = {
         color: muiTheme.palette.text.main,
@@ -37,12 +41,12 @@ const Navbar = () => {
 
     const settings = [
         {
-            name: "Profile",
+            name: "profile",
             action: () => {
                 navigate("/profile");
             },
         },
-        { name: "Logout", action: logoutHandler },
+        { name: "logout", action: logoutHandler },
     ];
 
     const handleOpenUserMenu = (event) => {
@@ -52,6 +56,12 @@ const Navbar = () => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+
+    // localization
+    const changeLanguageHandler = () => {
+        const lng = i18next.language === "en" ? "uk" : "en";
+        i18next.changeLanguage(lng);
+    }
 
     return (
         <AppBar color="primary" position="static" sx={{ height: "60px", padding: "0px 20px" }}>
@@ -64,14 +74,14 @@ const Navbar = () => {
                     }}
                 >
                     <Link style={navLinkStyle} to="/">
-                        Main page
+                        { t('mainPage') }
                     </Link>
                     <Link style={navLinkStyle} to="/about">
-                        About
+                        { t('aboutPage') }
                     </Link>
                     {isAuth && user.role === "admin" ? (
                         <Link style={navLinkStyle} to="/admin">
-                            Admin panel
+                            { t('adminPanelPage') }
                         </Link>
                     ) : (
                         <Link style={navLinkStyle} to="/">
@@ -99,6 +109,9 @@ const Navbar = () => {
                             <DarkModeIcon/>
                         </IconButton>
                     )}
+                    <IconButton onClick={changeLanguageHandler} sx={{ color: muiTheme.palette.text.main }}>
+                        <LanguageIcon/>
+                    </IconButton>
                 </Box>
                 <Box sx={{ flexGrow: 1 }}>
                     {!isAuth ? (
@@ -109,7 +122,7 @@ const Navbar = () => {
                                     sx={{ margin: "0px 5px 0px 0px", color: muiTheme.palette.text.main }}
                                     variant="contained"
                                 >
-                                    Login
+                                    {t("login")}
                                 </Button>
                             </Link>
                             <Link to="register">
@@ -118,7 +131,7 @@ const Navbar = () => {
                                     color="secondary"
                                     variant="contained"
                                 >
-                                    Register
+                                    {t("register")}
                                 </Button>
                             </Link>
                         </Box>
@@ -173,7 +186,7 @@ const Navbar = () => {
                                         <Typography
                                             sx={{ textAlign: "center" }}
                                         >
-                                            {setting.name}
+                                            {t(setting.name)}
                                         </Typography>
                                     </MenuItem>
                                 ))}
