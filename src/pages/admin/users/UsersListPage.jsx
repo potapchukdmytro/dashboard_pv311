@@ -78,7 +78,7 @@ const UsersListPage = () => {
                                     {user.email}
                                 </TableCell>
                                 <TableCell align="center">
-                                    {user.role}
+                                    {user.roles.map(role => role.name).join(", ")}
                                 </TableCell>
                                 <TableCell align="center">
                                     {user.password}
