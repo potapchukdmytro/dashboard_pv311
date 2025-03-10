@@ -1,8 +1,13 @@
-export const loadRoles = () => {
-    const localData = localStorage.getItem("roles");
-    if(localData) {
-        return {type: "ROLES_LOAD", payload: JSON.parse(localData)};
+import axios from "axios";
+
+export const loadRoles = () => async (dispatch) => {
+    const response = await axios.get("https://localhost:7220/api/role/list");
+
+    if(response.status === 200) {
+        return dispatch({type: "ROLES_LOAD", payload: response.data});
     }
+
+    return dispatch({type: "ERROR", payload: []});
 }
 
 export const createRole = (name) => {
