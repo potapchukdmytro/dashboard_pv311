@@ -18,6 +18,7 @@ import rolesJson from "./pages/admin/roles/roles.json";
 import useAction from "./hooks/useAction";
 import { ThemeProvider } from "@mui/material";
 import { lightTheme, darkTheme } from "./theming/themes";
+import ManufacturesPage from "./pages/manufacturesPage/ManufacturesPage";
 
 const App = () => {
     const { isAuth, user } = useSelector((state) => state.auth);
@@ -64,6 +65,7 @@ const App = () => {
                     ) : (
                         <Route path="profile" element={<ProfilePage />} />
                     )}
+                    <Route path="manufacture" element={<ManufacturesPage />} />
                     <Route path="about" element={<AboutPage />} />
                     <Route path="*" element={<NotFoundPage />} />
                 </Route>
