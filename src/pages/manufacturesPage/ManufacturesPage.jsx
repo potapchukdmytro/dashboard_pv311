@@ -1,38 +1,46 @@
 import axios from "axios";
 import {useEffect, useState} from "react";
-import {CircularProgress} from "@mui/material";
+import {Box, LinearProgress, Typography} from "@mui/material";
 
 const ManufacturesPage = () => {
-    const [manufacture, setManufacture] = useState(null);
+    const [manufactures, setManufactures] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const apiImagesUrl = "https://localhost:7220/images/";
 
     const fetchManufacture = async () => {
-        const response = await axios.get("https://localhost:7220/api/manufacture?id=2737e761-e4ab-4032-8813-b78082301774");
+        setLoading(true);
+        const response = await axios.get("https://localhost:7220/api/manufacture/list");
         if (response.status === 200) {
             const data = response.data;
-            setManufacture(data);
+            const list = data.payload;
+            setManufactures(list);
         }
+        setLoading(false);
     }
 
     useEffect(() => {
-        fetchManufacture();
+        fetchManufacture()
+            .catch(error => console.error(error));
     }, []);
 
     return (
         <>
             {
-                manufacture != null ? (
-                    <div>
-                        <div>
-                            <img width="400px" src={`${apiImagesUrl}${manufacture?.image}`} alt=""/>
-                        </div>
-                        <h1>{manufacture?.name}</h1>
-                        <h2>{manufacture?.founder}</h2>
-                        <h2>{manufacture?.director}</h2>
-                        <h3>{manufacture?.description}</h3>
-                    </div>
-                ) : <CircularProgress/>
+                loading ? <LinearProgress/>
+                    : manufactures.map(item => (
+                        <Box key={item.id}>
+                            <Box>
+                                <img width="400px" alt={item.name} src={`${apiImagesUrl}${item.image}`}/>
+                            </Box>
+                            <Box>
+                                <Typography variant="h2">{item.name}</Typography>
+                                <Typography variant="h4">Засновник: {item.founder}</Typography>
+                                <Typography variant="h4">Директор: {item.director}</Typography>
+                                <Typography variant="p">{item.description}</Typography>
+                            </Box>
+                        </Box>
+                    ))
             }
         </>
     )

@@ -88,8 +88,8 @@ const Navbar = () => {
                             Page
                         </Link>
                     )}
-                    <Link style={navLinkStyle} to="/">
-                        Page 4
+                    <Link style={navLinkStyle} to="/manufactures">
+                        Manufactures
                     </Link>
                 </Box>
 
