@@ -91,6 +91,9 @@ const Navbar = () => {
                     <Link style={navLinkStyle} to="/manufactures">
                         Manufactures
                     </Link>
+                    <Link style={navLinkStyle} to="/cars">
+                        Cars
+                    </Link>
                 </Box>
 
                 <Box
