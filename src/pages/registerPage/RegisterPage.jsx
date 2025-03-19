@@ -13,7 +13,6 @@ const RegisterPage = () => {
 
     const formHandler = (values) => {
         delete values.confirmPassword;
-        values.role = "user";
         register(values);
         navigate("/");
     };
@@ -23,6 +22,7 @@ const RegisterPage = () => {
         firstName: "",
         lastName: "",
         email: "",
+        userName: "",
         password: "",
         confirmPassword: "",
         image: "",
@@ -75,32 +75,18 @@ const RegisterPage = () => {
                 </Box>
                 <Box className="form-control">
                     <TextField
-                        id="firstName"
-                        name="firstName"
-                        label="First name"
+                        type="text"
+                        id="userName"
+                        name="userName"
+                        label="User name"
                         variant="filled"
                         fullWidth
                         onChange={formik.handleChange}
-                        value={formik.values.firstName}
+                        value={formik.values.userName}
                         onBlur={formik.handleBlur}
                     />
-                    {formik.touched.firstName && formik.errors.firstName ? (
-                        <FormError text={formik.errors.firstName} />
-                    ) : null}
-                </Box>
-                <Box className="form-control">
-                    <TextField
-                        id="lastName"
-                        name="lastName"
-                        label="Last name"
-                        variant="filled"
-                        fullWidth
-                        onChange={formik.handleChange}
-                        value={formik.values.lastName}
-                        onBlur={formik.handleBlur}
-                    />
-                    {formik.touched.lastName && formik.errors.lastName ? (
-                        <FormError text={formik.errors.lastName} />
+                    {formik.touched.userName && formik.errors.userName ? (
+                        <FormError text={formik.errors.userName} />
                     ) : null}
                 </Box>
                 <Box className="form-control">
@@ -154,16 +140,33 @@ const RegisterPage = () => {
                 </Box>
                 <Box className="form-control">
                     <TextField
-                        type="text"
-                        id="image"
-                        name="image"
-                        label="Image"
+                        id="firstName"
+                        name="firstName"
+                        label="First name"
                         variant="filled"
                         fullWidth
                         onChange={formik.handleChange}
-                        value={formik.values.image}
+                        value={formik.values.firstName}
                         onBlur={formik.handleBlur}
                     />
+                    {formik.touched.firstName && formik.errors.firstName ? (
+                        <FormError text={formik.errors.firstName} />
+                    ) : null}
+                </Box>
+                <Box className="form-control">
+                    <TextField
+                        id="lastName"
+                        name="lastName"
+                        label="Last name"
+                        variant="filled"
+                        fullWidth
+                        onChange={formik.handleChange}
+                        value={formik.values.lastName}
+                        onBlur={formik.handleBlur}
+                    />
+                    {formik.touched.lastName && formik.errors.lastName ? (
+                        <FormError text={formik.errors.lastName} />
+                    ) : null}
                 </Box>
                 <Box className="form-control">
                     <Button

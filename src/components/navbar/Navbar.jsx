@@ -79,7 +79,7 @@ const Navbar = () => {
                     <Link style={navLinkStyle} to="/about">
                         { t('aboutPage') }
                     </Link>
-                    {isAuth && user.role === "admin" ? (
+                    {isAuth && user.role.includes("admin") ? (
                         <Link style={navLinkStyle} to="/admin">
                             { t('adminPanelPage') }
                         </Link>
