@@ -10,7 +10,7 @@ const ManufacturesPage = () => {
 
     const fetchManufacture = async () => {
         setLoading(true);
-        const response = await axios.get("https://localhost:7220/api/manufacture/list");
+        const response = await axios.get("https://localhost:7220/api/manufacture");
         if (response.status === 200) {
             const data = response.data;
             const list = data.payload;

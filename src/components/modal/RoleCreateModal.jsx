@@ -21,7 +21,10 @@ const RoleCreateModal = ({open, handleClose}) => {
     const createHandler = (event) => {
         event.preventDefault();
         const roleName = event.target["name"].value;
-        createRole(roleName);
+        const role = {
+            name: roleName
+        };
+        createRole(role);
         handleClose();
     }
 
