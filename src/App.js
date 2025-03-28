@@ -24,7 +24,18 @@ import CarsPage from "./pages/carsPage/CarsPage";
 const App = () => {
     const { isAuth, user } = useSelector((state) => state.auth);
     const { theme } = useSelector((state) => state.theme);
-    const { loginByToken, setTheme } = useAction();
+    const { loginByToken, setTheme, refreshTokens } = useAction();
+
+    function getAccessToken() {
+        const cookie = document.cookie.split(';');
+        for (const item of cookie) {
+            const [key, value] = item.split('=');
+            if(key === "at") {
+                return value;
+            }
+        }
+        return null;
+    }
 
     // load user and role list
     useEffect(() => {
@@ -41,9 +52,11 @@ const App = () => {
 
     // user login
     useEffect(() => {
-        const token = localStorage.getItem("aut");
+        const token = getAccessToken();
         if (token) {
             loginByToken(token);
+        } else {
+            refreshTokens();
         }
 
         // theme
