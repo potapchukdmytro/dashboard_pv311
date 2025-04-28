@@ -37,19 +37,6 @@ const App = () => {
         return null;
     }
 
-    // load user and role list
-    useEffect(() => {
-        const localData = localStorage.getItem("users");
-        if (!localData) {
-            localStorage.setItem("users", JSON.stringify(usersJson));
-        }
-
-        const localRoles = localStorage.getItem("roles");
-        if (!localRoles) {
-            localStorage.setItem("roles", JSON.stringify(rolesJson));
-        }
-    }, []);
-
     // user login
     useEffect(() => {
         const token = getAccessToken();

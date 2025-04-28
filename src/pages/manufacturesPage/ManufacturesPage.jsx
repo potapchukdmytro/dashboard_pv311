@@ -1,16 +1,15 @@
 import axios from "axios";
 import {useEffect, useState} from "react";
 import {Box, LinearProgress, Typography} from "@mui/material";
+import http from "../../http_common";
 
 const ManufacturesPage = () => {
     const [manufactures, setManufactures] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const apiImagesUrl = "https://localhost:7220/images/";
-
     const fetchManufacture = async () => {
         setLoading(true);
-        const response = await axios.get("https://localhost:7220/api/manufacture");
+        const response = await http.get("manufacture");
         if (response.status === 200) {
             const data = response.data;
             const list = data.payload;
@@ -31,7 +30,7 @@ const ManufacturesPage = () => {
                     : manufactures.map(item => (
                         <Box key={item.id}>
                             <Box>
-                                <img width="400px" alt={item.name} src={`${apiImagesUrl}${item.image}`}/>
+                                <img width="400px" alt={item.name} src={`${process.env.REACT_APP_API_IMAGES_URL}${item.image}`}/>
                             </Box>
                             <Box>
                                 <Typography variant="h2">{item.name}</Typography>

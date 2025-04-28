@@ -4,8 +4,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const CarCard = ({car}) => {
-    const imagesUrl = "https://localhost:7220/images/";
-
     const settings = {
         dots: true,
         infinite: true,
@@ -19,7 +17,7 @@ const CarCard = ({car}) => {
             <Slider {...settings}>
                 {car.images.map((img, index) => (
                     <div key={index}>
-                        <img alt={car.model} height="300px" src={imagesUrl + img}/>
+                        <img alt={car.model} height="300px" src={process.env.REACT_APP_API_IMAGES_URL + img}/>
                     </div>
                 ))}
             </Slider>

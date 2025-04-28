@@ -6,11 +6,13 @@ import "./style.css";
 import { FormError } from "../../../../components/errors/Errors";
 import { useEffect } from "react";
 import useAction from "../../../../hooks/useAction";
+import { useSelector } from "react-redux";
 
 const EditUserPage = ({ isEdit = false }) => {
     const navigate = useNavigate();
     const params = useParams();
     const {createUser, updateUser} = useAction();
+    const { users } = useSelector(state => state.user);
 
     const formEditHandler = (values) => {
         updateUser(values);
@@ -54,14 +56,7 @@ const EditUserPage = ({ isEdit = false }) => {
 
     useEffect(() => {
         if (isEdit) {
-            const localData = localStorage.getItem("users");
-            if (!localData) {
-                navigate("/admin/users");
-            }
-
             const id = params.id;
-            const users = JSON.parse(localData);
-
             const user = users.find((u) => u.id == id);
 
             if (!user) {
